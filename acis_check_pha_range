@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 
-infile="2785/primary/acisf02785N003_evt2.fits.gz"
-mskfile="2785/secondary/acisf02785_000N003_msk1.fits.gz"
+#infile="2785/primary/acisf02785N003_evt2.fits.gz"
+#mskfile="2785/secondary/acisf02785_000N003_msk1.fits.gz"
+#binsize=32
 
-#infile="12934/primary/acisf12934N003_evt2.fits.gz"
-#mskfile="12934/secondary/acisf12934_001N003_msk1.fits.gz"
-binsize=32
-
-#infile="5705/primary/acisf05705N003_evt2.fits.gz"
-#mskfile="5705/secondary/acisf05705_000N003_msk1.fits.gz"
 
 toolname = "acis_check_pha_range"
 __revision__ = "06 January 2020"
@@ -22,7 +17,6 @@ verb0 = lgr.verbose0
 verb1 = lgr.verbose1
 verb2 = lgr.verbose2
 verb3 = lgr.verbose3
-
 
 
 class ChipInfo():
@@ -43,11 +37,14 @@ class ChipInfo():
         self.chip = cr.get_key_value("ccd_id")
         self.pharo_lo = max(cr.get_column("phamin").values)
         self.pharo_hi = min(cr.get_column("phamax").values)
+        if self.pharo_hi > 3800:
+            verb2("Replacing max={} with 3800".format(self.pharo_hi))
+            self.pharo_hi=3800
+
     
         verb1("Processing data for CCD_ID={}".format(self.chip))
         verb2("PHA_RO min = {} ADU".format(self.pharo_lo))
         verb2("PHA_RO_max = {} ADU".format(self.pharo_hi))
-
 
 
     def compute_approximate_gain( self, evt, binsize ):        
@@ -148,9 +145,9 @@ def check_pha_range( evtfile, mskfile="", binsize=32):
         mskfile = oo.get_ancillary("mask")
         verb1("Using maskfile: '{}'".format(mskfile))
         
-    assert 'none' != mskfile.lower(), "ERROR: maskfile must not be {}".format(mskfile)
-    assert '' != mskfile, "ERROR: mask file cannot be blank"
-    assert binsize in [1,2,4,8,16,32,64,128,256], "ERROR: Binsize must be a power of 2 <= 256"
+    assert 'none' != mskfile.lower(), "ERROR: mskfile is not optional; it cannot be {}".format(mskfile)
+    assert '' != mskfile, "ERROR: mskfile cannot be blank"
+    assert binsize in [1,2,4,8,16,32,64,128,256], "ERROR: binsize must be a power of 2 and <= 256"
 
     # Collect data from each block in mask file
     from pycrates import CrateDataset
@@ -160,7 +157,7 @@ def check_pha_range( evtfile, mskfile="", binsize=32):
     chip_info = [ChipInfo(msk.get_crate(nn)) for nn in range(2,msk.get_ncrates()+1)]
 
     lower = 0.0
-    upper = 99999.0
+    upper = 999999.0
     for chip in chip_info:
         chip.compute_approximate_gain(evtfile, binsize)    
         lower = max(lower, chip.energy_lo)
