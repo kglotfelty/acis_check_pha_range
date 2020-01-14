@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-#infile="2785/primary/acisf02785N003_evt2.fits.gz"
-#mskfile="2785/secondary/acisf02785_000N003_msk1.fits.gz"
-#binsize=32
-
 
 toolname = "acis_check_pha_range"
 __revision__ = "06 January 2020"
@@ -128,8 +124,8 @@ class ChipInfo():
            phi=self.pharo_hi,elo=self.energy_lo, ehi=self.energy_hi)
 
         if header is True:
-            verb2("#ccd_id\tpha_lo\tpha_hi\tE_lo\tE_hi")
-        verb2(retval)
+            verb1("#ccd_id\tpha_lo\tpha_hi\tE_lo\tE_hi")
+        verb1(retval)
 
 
 def check_pha_range( evtfile, mskfile="", binsize=32):
@@ -182,9 +178,9 @@ def main():
     for chip in retval["details"]:
         chip.summarize(chip==retval["details"][0]) # Print banner 1st chip
 
-    print()
+    verb0("")
     out="Conservative limits are {:.1f} to {:.1f} eV"
-    print(out.format( retval["lower_limit"], retval["upper_limit"]))
+    verb0(out.format( retval["lower_limit"], retval["upper_limit"]))
 
 
 if __name__ == "__main__":
