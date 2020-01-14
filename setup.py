@@ -1,20 +1,41 @@
+#!/usr/bin/env python
+#
+# Copyright (C) 2020 Smithsonian Astrophysical Observatory
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
 
+"""
+python setup.py build -e '/usr/bin/env python' install --prefix=$ASCDS_INSTALL/contrib
+"""
+
+mytool='acis_check_pha_range'
 
 import os
-
 assert "ASCDS_INSTALL" in os.environ, "Please setup for CIAO before installing"
-
 
 from distutils.core import setup
 
-setup( name='acis_check_pha_range',
-       version='0.1.0',
+setup( name=mytool,
+       version='0.5.0',
        description='Compute approximate energy range used by acis',
-       author='Anonymous',
+       author='CXCSDS',
        author_email='glotfeltyk@si.edu',
-       url='https://github.com/kglotfelty/acis_check_pha_range/',
-       scripts=["acis_check_pha_range"],
-       data_files=[('param',['acis_check_pha_range.par']),
-                    ]
-                    
+       url='https://github.com/kglotfelty/'+mytool,
+       scripts=[mytool,],
+       data_files=[('param',[mytool+'.par']),
+                   ('share/doc/xml',[mytool+'.xml']),
+                  ],
     )
