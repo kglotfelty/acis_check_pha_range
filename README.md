@@ -224,6 +224,16 @@ $ conda activate ciao
 $ python setup.py install
 ```
 
+With either method, you can run
+
+```bash
+$ ahelp -r
+```
+
+to make the `ahelp` file available.  Note: this tool will not be available
+using the `ciao_contrib.runtool` module.
+
+
 
 ## About Contributed Software
 
