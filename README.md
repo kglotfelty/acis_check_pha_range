@@ -151,11 +151,8 @@ events) is closer to 0.64 keV.
 |  NAME   |  TYPE   | FILETYPE | DEF | MIN | MAX | REQD | STACKS |
 |---------|---------|----------|-----|-----|-----|------|--------|
 | infile  | file    | input    |     |     |     | yes  | no     |
-|---------|---------|----------|-----|-----|-----|------|--------|
 | mskfile | file    | input    |     |     |     | no   |        |
-|---------|---------|----------|-----|-----|-----|------|--------|
 | binsize | integer |          | 128 |     |     |      |        |
-|---------|---------|----------|-----|-----|-----|------|--------|
 | verbose | integer |          | 1   | 0   | 5   |      |        |
 
 ## DETAILED PARAMETER DESCRIPTIONS
