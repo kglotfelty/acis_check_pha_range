@@ -206,11 +206,16 @@ Amount of tool chatter level.
 
 ## Installation
 
-If you used `ciao-install` to install CIAO, then you can
+First download the repository
 
 ```bash
 $ git clone https://github.com/kglotfelty/acis_check_pha_range
 $ cd acis_check_pha_range
+```
+
+Next, if you used `ciao-install` to install CIAO, then you can
+
+```
 $ source /soft/ciao/bin/ciao.bash
 $ python setup.py build -e "/usr/bin/env python" install --prefix $ASCDS_INSTALL/contrib
 ```
@@ -218,13 +223,11 @@ $ python setup.py build -e "/usr/bin/env python" install --prefix $ASCDS_INSTALL
 If you used installed CIAO using `conda` then you can
 
 ```bash
-$ git clone https://github.com/kglotfelty/acis_check_pha_range
-$ cd acis_check_pha_range
 $ conda activate ciao
 $ python setup.py install
 ```
 
-With either method, you can run
+Finally, with either method, you can run
 
 ```bash
 $ ahelp -r
