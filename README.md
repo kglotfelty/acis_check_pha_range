@@ -222,8 +222,7 @@ up-to-date listing of known bugs.
 | CONTEXT |                                            SUBJECTS                                            |
 |---------|------------------------------------------------------------------------------------------------|
 | chandra | eventdef                                                                                       |
-| tools   | acis_build_badpix, acis_clear_status_bits, acis_detect_afterglow, acis_find_afterglow,         |
-|         | acis_process_events, acis_streak_map, acisreadcorr, destreak, readout_bkg                      |
+| tools   | acis_build_badpix, acis_clear_status_bits, acis_detect_afterglow, acis_find_afterglow,  acis_process_events, acis_streak_map, acisreadcorr, destreak, readout_bkg                      |
 
 ## LAST MODIFIED
 
