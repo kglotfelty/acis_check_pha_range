@@ -1,4 +1,21 @@
 #!/usr/bin/env python
+#
+# Copyright (C) 2020 Smithsonian Astrophysical Observatory
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
 
 
 toolname = "acis_check_pha_range"
@@ -135,9 +152,9 @@ def check_pha_range( evtfile, mskfile="", binsize=32):
     per chip details.    
     """
 
+    from ciao_contrib._tools.obsinfo import ObsInfo
+    oo = ObsInfo(evtfile)
     if '' == mskfile:    
-        from ciao_contrib._tools.obsinfo import ObsInfo
-        oo = ObsInfo(evtfile)
         mskfile = oo.get_ancillary("mask")
         verb1("Using maskfile: '{}'".format(mskfile))
         
@@ -149,6 +166,8 @@ def check_pha_range( evtfile, mskfile="", binsize=32):
     from pycrates import CrateDataset
     msk = CrateDataset(mskfile, "r")
     assert "ACIS" == msk.get_crate(1).get_key_value("INSTRUME"), "ERROR: Must be an ACIS observation"
+    assert oo.obsid.obsid == msk.get_crate(1).get_key_value("OBS_ID"), "ERROR: Wrong OBSID in mask file"
+
 
     chip_info = [ChipInfo(msk.get_crate(nn)) for nn in range(2,msk.get_ncrates()+1)]
 
