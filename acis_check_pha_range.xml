@@ -42,9 +42,10 @@
         The purpose of this script then is to compute an estimated gain
         based on the actual observed event data, and use it to 
         compute an approximate energy range where all events were 
-        telemetered.        
+        telemetered.  Users should then ensure that the energy range
+        used in their analysis (eg, energy range used when 
+        fitting spectrum) falls within these limits.
         </PARA>
-
         <PARA title="Description of Algorithm">
         This tool works by ignoring the temporal and spectral (non-linear)
         gain variations.  It computes a gain map (eV/ADU) in CHIP coordinates
