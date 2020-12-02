@@ -21,21 +21,44 @@
 python setup.py build -e '/usr/bin/env python' install --prefix=$ASCDS_INSTALL/contrib
 """
 
-mytool='acis_check_pha_range'
 
 import os
+from setuptools import setup
+from setuptools.command.install import install
+
+MYTOOL='acis_check_pha_range'
+
 assert "ASCDS_INSTALL" in os.environ, "Please setup for CIAO before installing"
 
-from distutils.core import setup
+class InstallAhelpWrapper(install):
+    'A simple wrapper to run ahelp -r after install to update ahelp index'
 
-setup( name=mytool,
-       version='0.5.0',
+    @staticmethod
+    def update_ahelp_database():
+        'Run ahelp -r after install'
+        print("Update ahelp database ...")
+        from subprocess import check_output
+        sout = check_output(["ahelp","-r"])
+        for line in sout.decode().split("\n"):
+            for summary in ["Processed", "Succeeded", "Failed", "Purged"]:
+                if line.startswith(summary):
+                    print("    "+line)
+    
+    def run(self):
+        install.run(self)
+        self.update_ahelp_database()
+
+
+
+setup( name=MYTOOL,
+       version='0.9.0',
        description='Compute approximate energy range used by acis',
        author='CXCSDS',
        author_email='glotfeltyk@si.edu',
-       url='https://github.com/kglotfelty/'+mytool,
-       scripts=[mytool,],
-       data_files=[('param',[mytool+'.par']),
-                   ('share/doc/xml',[mytool+'.xml']),
+       url='https://github.com/kglotfelty/'+MYTOOL,
+       scripts=[MYTOOL,],
+       data_files=[('param',[MYTOOL+'.par']),
+                   ('share/doc/xml',[MYTOOL+'.xml']),
                   ],
+       cmdclass={'install': InstallAhelpWrapper},
     )
